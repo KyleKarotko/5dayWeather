@@ -1,8 +1,6 @@
 var searchFormEl = document.querySelector('#search-form');
 var APIkey = "00a2ab0e16fa5ac0d1cd1818e2d4d52c";
 
-// Function to fetch API
-
 // Function to search for city by name
 function citySearch(event) {
     event.preventDefault();
@@ -19,7 +17,6 @@ function citySearch(event) {
 
   
 //Function to get Cord from city name
-
 function convertCord (city){
     fetch("http://api.openweathermap.org/geo/1.0/direct?q=" + city +"&limit=5&appid=" + APIkey).then(function(response){
     return response.json()
