@@ -38,46 +38,55 @@ function convertCord (city){
       }).then(function(data){
         console.log(data);
         console.log(name);
+        // vars for current weather display
         var temp = data.main.temp;
         var humidity = data.main.humidity
         var wind = data.wind.speed
         var icon = data.weather[0].icon
+        //sets city at card header
         var weatherCard= document.createElement("div");
         weatherCard.setAttribute("class","card");
         var cardTitle = document.createElement("h3");
         cardTitle.setAttribute("class","card-title");
         cardTitle.textContent = name;
         document.querySelector("#current-box").appendChild(weatherCard.appendChild(cardTitle));
-        var currentIcon = document.createElement('div')
+        //displays current weather conditon icon
+        var currentIcon = document.createElement('img');
         currentIcon.setAttribute('class', 'card-body');
         currentIcon.textContent = icon;
         document.querySelector("#current-box").appendChild(weatherCard.appendChild(currentIcon));
+        //somehow use the below to add the icon. need to follow up and ask
+        //attr('src', `https://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`);
+        //displays current Tempature
         var currentTemp = document.createElement('div');
         currentTemp.setAttribute('class', 'card-body');
         currentTemp.textContent = "Temperature: " + temp;
         document.querySelector("#current-box").appendChild(weatherCard.appendChild(currentTemp));
+        //displays current humidity
         var currentHumidity = document.createElement('div');
         currentHumidity.setAttribute('class', 'card-body');
         currentHumidity.textContent = "Humidity: " + humidity;
         document.querySelector("#current-box").appendChild(weatherCard.appendChild(currentHumidity));
+        //displays current wind speed
         var currentWind= document.createElement('div');
         currentWind.setAttribute('class', 'card-body');
         currentWind.textContent = "Wind Speed: " + wind + "MPH";
         document.querySelector("#current-box").appendChild(weatherCard.appendChild(currentWind));
 
-       
+       fiveDayForecast();
       });
   }
 
 
+  function fiveDayForecast(lat,lon,name){
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${APIkey}`)
+    .then(function(response){
+      return response.json()
+      }).then(function(data){
+        
+       
+      });
+  }
 
-
-function init(){
-
-};
-
-
-
-
-init();
+  
 
