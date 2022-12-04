@@ -73,7 +73,7 @@ function convertCord (city){
         currentWind.textContent = "Wind Speed: " + wind + "MPH";
         document.querySelector("#current-box").appendChild(weatherCard.appendChild(currentWind));
 
-       fiveDayForecast();
+       fiveDayForecast(lat,lon,name);
       });
   }
 
@@ -83,7 +83,39 @@ function convertCord (city){
     .then(function(response){
       return response.json()
       }).then(function(data){
-        
+        console.log(data);
+        var resultArray = data.list;
+        //var temp = data.list[0].main.temp;
+        //var humidity = data.list[0].main.humidity
+        //var wind = data.list[0].wind.speed
+        //var fiveWeatherCard= document.createElement("div");
+        //fiveWeatherCard.setAttribute("class","card");
+        //var icon = data.weather[0].icon
+        for ( var i = 0; i < resultArray.length; i++) {
+          if (resultArray[i].dt_txt.split(' ')[1] === '12:00:00') {
+            console.log(resultArray[i]);
+            var temp = data.list[i].main.temp;
+            var humidity = data.list[i].main.humidity
+            var wind = data.list[i].wind.speed
+            var fiveWeatherCard= document.createElement("div");
+            fiveWeatherCard.setAttribute("class","card");
+            //Temp for 5 day cards
+            var fiveDayTemp = document.createElement('div');
+            fiveDayTemp.setAttribute('class', '5card-body');
+            fiveDayTemp.textContent = "Temperature: " + temp;
+            document.querySelector("#fiveDayFor").appendChild(fiveWeatherCard.appendChild(fiveDayTemp));
+            //Humidity for 5 day cards
+            var fiveDayHumidity = document.createElement('div');
+            fiveDayHumidity.setAttribute('class', '5card-body');
+            fiveDayHumidity.textContent = "Humidity: " + humidity;
+            document.querySelector("#fiveDayFor").appendChild(fiveWeatherCard.appendChild(fiveDayHumidity));
+           //displays wind speed for 5 day
+            var fiveDayWind = document.createElement('div');
+            fiveDayWind.setAttribute('class', 'card-body');
+            fiveDayWind.textContent = "Wind Speed: " + wind + "MPH";
+            document.querySelector("#fiveDayFor").appendChild(fiveWeatherCard.appendChild(fiveDayWind));
+          }
+        }
        
       });
   }
