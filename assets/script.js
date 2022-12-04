@@ -78,25 +78,20 @@ function convertCord (city){
   }
 
 
-  function fiveDayForecast(lat,lon,name){
+  function fiveDayForecast(lat,lon){
     fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${APIkey}`)
     .then(function(response){
       return response.json()
       }).then(function(data){
         console.log(data);
         var resultArray = data.list;
-        //var temp = data.list[0].main.temp;
-        //var humidity = data.list[0].main.humidity
-        //var wind = data.list[0].wind.speed
-        //var fiveWeatherCard= document.createElement("div");
-        //fiveWeatherCard.setAttribute("class","card");
-        //var icon = data.weather[0].icon
         for ( var i = 0; i < resultArray.length; i++) {
           if (resultArray[i].dt_txt.split(' ')[1] === '12:00:00') {
             console.log(resultArray[i]);
             var temp = data.list[i].main.temp;
             var humidity = data.list[i].main.humidity
             var wind = data.list[i].wind.speed
+            //var icon = data.weather[0].icon
             var fiveWeatherCard= document.createElement("div");
             fiveWeatherCard.setAttribute("class","card");
             //Temp for 5 day cards
