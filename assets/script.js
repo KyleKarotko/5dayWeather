@@ -1,6 +1,8 @@
 var searchFormEl = document.querySelector('#search-form');
 var APIkey = "00a2ab0e16fa5ac0d1cd1818e2d4d52c";
-var city;
+var city = document.getElementById('city-search');
+const searchedCitiesEl = document.getElementById('searched-cities');
+const card = document.getElementById('fiveDayFor');
 
 // Function to search for city by name
 function citySearch(event) {
@@ -11,13 +13,10 @@ function citySearch(event) {
       return;
     }
     convertCord(searchInput);
-    
-    showOldSearch();
-    
+    addSearchedCity(searchInput)
   
   }
   searchFormEl.addEventListener('submit', citySearch);
- 
 
 
   
@@ -60,7 +59,8 @@ function convertCord (city){
         currentIcon.setAttribute('class', 'card-body');
         currentIcon.textContent = icon;
         document.querySelector("#current-box").appendChild(weatherCard.appendChild(currentIcon));
-        //attr('src', `src = https://openweathermap.org/img/wn/${weatherDays[0].weather[0].icon}@2x.png`);
+        //somehow use the below to add the icon. need to follow up and ask
+        //attr('src', `https://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`);
         //displays current Tempature
         var currentTemp = document.createElement('div');
         currentTemp.setAttribute('class', 'card-body');
@@ -77,8 +77,7 @@ function convertCord (city){
         currentWind.textContent = "Wind Speed: " + wind + "MPH";
         document.querySelector("#current-box").appendChild(weatherCard.appendChild(currentWind));
 
-        saveSearches();
-        fiveDayForecast(lat,lon,name);
+       fiveDayForecast(lat,lon,name);
       });
   }
 
@@ -121,39 +120,29 @@ function convertCord (city){
             fiveDayWind.textContent = "Wind Speed: " + wind + "MPH";
             document.querySelector(".fiveCardDate").appendChild(fiveDayHumidity.appendChild(fiveDayWind));
           }
-          saveSearches();
         }
-        function saveSearches(){
-          var searchArry = [];
-          if (localStorage.getItem('savedSearches')) {
-            searchArry = searchArry.concat(localStorage.getItem('savedSearches'))
-          } else {
-            searchArry = [];
-          }
-          searchArry.push(city);
-          localStorage.setItem('savedSearches', searchArry);
-          showOldSearch();
-        };
-
-        function showOldSearch(){
-          var cityButton = document.getElementById('oldSearchButtons');
-          cityButton.innerHTML = " ";
-
-          var searchedCityArry = localStorage.getItem('showOldSearch').split(',');
-          for (let i = 0; i < searchedCityArry.length; i++){
-            var cityList = document.createElement('button');
-            cityList.textContent = searchedCityArry[i];
-            cityButton.append(cityList);
-            cityList.onclick = function(event){
-              inputEL.value = event.target.textcontent;
-              citySearch();
-
-            }
-          }
-        };
-        
 
       });
   }
 
- 
+
+
+function addSearchedCity(city) {
+  let cities = JSON.parse(localStorage.getItem('cities'))
+  if (!cities) {
+    cities = []
+  }
+  cities.push(city)
+  localStorage.setItem('cities', JSON.stringify(cities))
+  renderCityButtons(cities)
+}
+
+function renderCityButtons(cities) {
+  var htmlContainer = '';
+  cities.forEach((city) => {
+    htmlContainer += `<button class="city-button" data-city="${city}">${city}</button>`
+  })
+  searchedCitiesEl.innerHTML = htmlContainer
+  // to the container from the dom append this list htmlContainer
+  // add event listener to each element with class .city-button
+}
