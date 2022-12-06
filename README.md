@@ -16,10 +16,12 @@ THEN I am again presented with current and future conditions for that city
 
 # Mock-up
 The following images show the webpage's apperance
+![Weather Dashboard](./assets/images/WD1.png)
 
 
 # Links
 
 ## End project
-
+https://kylekarotko.github.io/5dayWeather/
 ## Github Repo
+https://github.com/KyleKarotko/5dayWeather
